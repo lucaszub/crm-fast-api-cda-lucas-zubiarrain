@@ -22,32 +22,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}  # Utilisation du secret pour le nom d'utilisateur Docker Hub
         password: ${{ secrets.DOCKER_PASSWORD }}  # Utilisation du secret pour le mot de passe Docker Hub
 
-    - name: Get current version from version.txt
-      id: version
-      run: |
-        VERSION_FILE="version.txt"
-        if [ -f "$VERSION_FILE" ]; then
-          VERSION=$(cat $VERSION_FILE)
-          echo "Current version: $VERSION"
-        else
-          VERSION="v1.0.0"
-        fi
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-    - name: Increment version
-      id: increment_version
-      run: |
-        VERSION_PARTS=(${VERSION//./ })
-        PATCH=${VERSION_PARTS[2]}
-        PATCH=$((PATCH + 1))
-        NEW_VERSION="v${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH"
-        echo "New version: $NEW_VERSION"
-        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-        echo $NEW_VERSION > version.txt
-
     - name: Build and push Docker image
       uses: docker/build-push-action@v2  # Action pour construire et pousser l'image Docker
       with:
         context: .  # Dossier contenant votre Dockerfile (ici, le répertoire racine)
-        push: true  # Indiquer que l'image doit être poussée vers Docker Hub #test
-        tags: lucaszub/fastapi-crm:${{ env.NEW_VERSION }}  # Le tag pour l'image Docker
+        push: true  # Indiquer que l'image doit être poussée vers Docker Hub
+        tags: lucaszub/fastapi-crm:v1.0.7  # Le tag fixe pour l'image Docker
