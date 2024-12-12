@@ -27,7 +27,7 @@ jobs:
             docker rm fastapi-crm || true
             
             # Télécharger la dernière version de l'image Docker
-            docker pull lucaszub/fastapi-crm:1.0.13
+            docker pull lucaszub/fastapi-crm:latest
 
             # Lancer le conteneur avec le port 80 exposé
             docker run -d --name fastapi-crm -p 80:80 lucaszub/fastapi-crm:1.0.13
