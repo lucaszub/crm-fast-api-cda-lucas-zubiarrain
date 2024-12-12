@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copie tout le contenu de l'application dans le conteneur
 COPY . .
 
-# Expose le port sur lequel l'application va écouter
+# Expose le port sur lequel l'application va écouter test
 EXPOSE 8000
 
 # Commande pour lancer l'application avec uvicorn
