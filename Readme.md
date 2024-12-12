@@ -36,3 +36,5 @@ Pousser l'image vers Docker Hub (si vous voulez la partager ou l'utiliser ailleu
 docker login
 docker push lucaszub/fastapi-crm:v1.0.6
 ```
+
+ssh-keygen -t rsa -b 4096 -C "zubiarrainlucas@gmail.com"

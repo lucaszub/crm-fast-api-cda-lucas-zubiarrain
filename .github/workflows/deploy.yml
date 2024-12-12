@@ -1,0 +1,33 @@
+name: Deploy to VPS
+
+on:
+  workflow_run:
+    workflows: ["Docker Publish"]  # Nom du workflow à attendre avant de démarrer celui-ci
+    types:
+      - completed  # Le workflow s'exécute lorsque l'autre est terminé
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Pull Docker image from Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker pull lucaszub/fastapi-crm:v1.0.8
+
+      - name: Run Docker container on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+            docker stop fastapi-crm || true
+            docker rm fastapi-crm || true
+            docker run -d --name fastapi-crm -p 80:80 lucaszub/fastapi-crm:v1.0.8
+          "
