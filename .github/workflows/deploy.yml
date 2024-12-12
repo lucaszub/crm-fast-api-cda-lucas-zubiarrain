@@ -1,10 +1,10 @@
-name: SSH to VPS
+name: Deploy to VPS
 
 on:
   workflow_run:
-    workflows: ["Docker Publish"]  # Nom du workflow à attendre avant de démarrer celui-ci
+    workflows: ["Docker Publish"]  # Le nom du workflow qui build et push l'image Docker
     types:
-      - completed  # Le workflow s'exécute lorsque l'autre est terminé
+      - completed  # Déclenche ce workflow lorsque l'autre est terminé avec succès
 
 jobs:
   deploy:
@@ -19,7 +19,18 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Test SSH connection  
+      - name: Deploy Docker container to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo 'SSH connection successful'" 
-#test
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            # Arrêter le conteneur existant s'il y en a un
+            docker stop fastapi-crm || true
+            docker rm fastapi-crm || true
+            
+            # Télécharger la dernière version de l'image Docker
+            docker pull lucaszub/fastapi-crm:1.0.12
+
+            # Lancer le conteneur avec le port 80 exposé
+            docker run -d --name fastapi-crm -p 80:80 lucaszub/fastapi-crm:1.0.12
+
+            echo "Déploiement terminé avec succès !"
+          EOF
