@@ -7,7 +7,7 @@ WORKDIR /app
 # Copie le fichier requirements.txt dans le conteneur
 COPY requirements.txt .
 
-# Installe les dépendances
+# Installe les dépendances test
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copie tout le contenu de l'application dans le conteneur
