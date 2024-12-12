@@ -30,7 +30,7 @@ jobs:
             docker pull lucaszub/fastapi-crm:latest
 
             # Lancer le conteneur avec le port 80 exposé
-            docker run -d --name fastapi-crm -p 80:8000 lucaszub/fastapi-crm:latest
+            docker run -d --name fastapi-crm -p 8000:8000 lucaszub/fastapi-crm:latest
 
             echo "Déploiement terminé avec succès !"
           EOF

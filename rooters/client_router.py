@@ -7,6 +7,11 @@ from db.database import get_db
 
 router = APIRouter()
 
+@router.get("/clients/test")
+def test_hello():
+    return {"hello: world"}
+
+
 @router.post("/clients/")
 def create_client(client:ClientSchema, db : Session = Depends(get_db)):
     service = ClientHandler(db)
