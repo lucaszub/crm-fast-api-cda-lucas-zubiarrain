@@ -22,12 +22,12 @@ jobs:
       - name: Pull Docker image from Docker Hub
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker pull lucaszub/fastapi-crm:v1.0.9
+          docker pull lucaszub/fastapi-crm:v1.0.10
 
       - name: Run Docker container on VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
             docker stop fastapi-crm || true
             docker rm fastapi-crm || true
-            docker run -d --name fastapi-crm -p 80:80 lucaszub/fastapi-crm:v1.0.9
+            docker run -d --name fastapi-crm -p 80:80 lucaszub/fastapi-crm:v1.0.10
           "

@@ -27,4 +27,4 @@ jobs:
       with:
         context: .  # Dossier contenant votre Dockerfile (ici, le répertoire racine)
         push: true  # Indiquer que l'image doit être poussée vers Docker Hub
-        tags: lucaszub/fastapi-crm:v1.0.9  # Le tag fixe pour l'image Docker
+        tags: lucaszub/fastapi-crm:v1.0.10  # Le tag fixe pour l'image Docker
