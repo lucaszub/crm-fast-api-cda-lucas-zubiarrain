@@ -1,0 +1,38 @@
+name: Setup SSL on VPS
+
+on:
+  workflow_run:
+    workflows: ["Deploy to VPS"]
+    types:
+      - completed
+
+jobs:
+  setup-ssl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install and configure SSL
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            set -e
+            # Mettre à jour et installer les dépendances
+            sudo apt-get update
+            sudo apt-get install -y nginx certbot python3-certbot-nginx
+
+            # Démarrer et activer Nginx
+            sudo systemctl start nginx
+            sudo systemctl enable nginx
+
+            # Obtenir le certificat SSL pour lzubidev.com et www.lzubidev.com
+            sudo certbot --nginx -d lzubidev.com -d www.lzubidev.com --non-interactive --agree-tos -m zubiarrainlucas@gmail.com --redirect
+
+            echo "SSL configuration completed successfully!"
+          EOF
