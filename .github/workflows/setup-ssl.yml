@@ -23,22 +23,24 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
             set -e
+            
             # Mettre à jour et installer les dépendances
             sudo apt-get update
             sudo apt-get install -y nginx certbot python3-certbot-nginx
 
-            # Démarrer et activer Nginx t
+            # Démarrer et activer Nginx
             sudo systemctl start nginx
             sudo systemctl enable nginx
 
-            # Obtenir le certificat SSL pour lzubidev.com et www.lzubidev.com
+            # Obtenir le certificat SSL
             sudo certbot --nginx -d lzubdev.com -d www.lzubdev.com --non-interactive --agree-tos -m zubiarrainlucas@gmail.com --redirect
 
-            # Vérifier si Nginx a été configuré automatiquement par Certbot
-            # Modifier ou remplacer la configuration de Nginx si nécessaire
+            # Désactiver la configuration par défaut
+            sudo rm -f /etc/nginx/sites-enabled/default
+
+            # Créer la configuration Nginx pour lzubdev.com
             if [ ! -f /etc/nginx/sites-available/lzubdev.com ]; then
-              echo "Création du fichier de configuration Nginx"
-              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com << "EOF"
+              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com << "NGINX_CONF"
 server {
     listen 80;
     server_name lzubdev.com www.lzubdev.com;
@@ -56,26 +58,28 @@ server {
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
-    # Configuration pour ton application
     location / {
-        proxy_pass http://localhost:8000;  # Assurez-vous que votre app écoute sur le bon port
+        proxy_pass http://localhost:8000;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
-EOF'
+NGINX_CONF'
             fi
 
-            # Créer un lien symbolique pour activer la configuration de Nginx
+            # Activer la configuration
             sudo ln -sf /etc/nginx/sites-available/lzubdev.com /etc/nginx/sites-enabled/
 
-            # Vérifier la syntaxe de la configuration Nginx
+            # Vérifier la syntaxe de Nginx
             sudo nginx -t
 
-            # Recharger Nginx pour appliquer les nouvelles configurations
+            # Recharger Nginx pour appliquer les changements
             sudo systemctl reload nginx
+
+            # Redémarrer FastAPI (adapte cette commande selon ton gestionnaire de processus)
+            sudo systemctl restart my_fastapi_app.service || echo "FastAPI app service not found."
 
             echo "SSL et configuration Nginx complétés avec succès!"
           EOF
