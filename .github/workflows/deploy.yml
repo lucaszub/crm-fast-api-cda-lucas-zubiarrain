@@ -2,9 +2,9 @@ name: Deploy to VPS
 
 on:
   workflow_run:
-    workflows: ["Setup Docker on VPS"]  # Le nom du workflow qui build et push l'image Docker
+    workflows: ["Setup Docker on VPS"]
     types:
-      - completed  # Déclenche ce workflow lorsque l'autre est terminé avec succès
+      - completed
 
 jobs:
   deploy:
@@ -21,16 +21,25 @@ jobs:
 
       - name: Deploy Docker container to VPS
         run: |
+          echo "Starting SSH connection to VPS..."
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-            # Arrêter le conteneur existant s'il y en a un
+            set -e
+            echo "Stopping existing Docker container if any..."
             docker stop fastapi-crm || true
             docker rm fastapi-crm || true
-            
-            # Télécharger la dernière version de l'image Docker
+
+            echo "Pulling the latest Docker image..."
             docker pull lucaszub/fastapi-crm:latest
 
-            # Lancer le conteneur avec le port 80 exposé
+            echo "Running the Docker container..."
             docker run -d --name fastapi-crm -p 8000:8000 lucaszub/fastapi-crm:latest
 
-            echo "Déploiement terminé avec succès !"
+            echo "Deployment completed successfully!"
+          EOF
+
+      - name: Verify Deployment Status
+        run: |
+          echo "Checking Docker container status on VPS..."
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            docker ps | grep fastapi-crm || echo "Docker container is not running"
           EOF
