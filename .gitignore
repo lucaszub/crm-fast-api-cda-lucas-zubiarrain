@@ -1,2 +1,11 @@
+# Fichiers Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environnements virtuels
+venv/
+.venv/
+
+# Fichiers spécifiques à l'outil Runner
 _runner_.py
-venv

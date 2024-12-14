@@ -1,0 +1,58 @@
+name: Setup Docker on VPS
+
+on:
+  workflow_run:
+    workflows: ["Docker Publish"]
+    types:
+      - completed
+
+jobs:
+  setup-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Check if Docker is installed
+        id: check_docker
+        run: |
+          if ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} 'docker --version'; then
+            echo "Docker is already installed."
+            echo "installed=true" >> $GITHUB_ENV
+          else
+            echo "Docker is not installed."
+            echo "installed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Install Docker on VPS if not installed
+        if: env.installed == 'false'
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            # Mettre à jour le système
+            sudo apt-get update
+            
+            # Installer les dépendances nécessaires
+            sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+            # Ajouter la clé GPG officielle de Docker
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+            # Ajouter le dépôt officiel de Docker
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+            # Installer Docker
+            sudo apt-get update
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+            # Démarrer et activer Docker
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            echo "Docker installé avec succès !"
+          EOF
