@@ -5,6 +5,7 @@ on:
     workflows: ["Deploy to VPS"]
     types:
       - completed
+  workflow_dispatch:  # Permet de lancer manuellement le workflow
 
 jobs:
   setup-ssl:
