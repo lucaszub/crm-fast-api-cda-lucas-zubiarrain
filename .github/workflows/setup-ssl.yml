@@ -35,7 +35,7 @@ jobs:
             # Désactiver la configuration par défaut
             sudo rm -f /etc/nginx/sites-enabled/default
             # Créer la configuration Nginx pour lzubdev.com
-            sudo bash -c "cat > /etc/nginx/sites-available/lzubdev.com" <<'EOF_NGINX'
+            sudo tee /etc/nginx/sites-available/lzubdev.com" /dev/null <<'EOF_NGINX'
 server {
     listen 80;
     server_name lzubdev.com www.lzubdev.com;
