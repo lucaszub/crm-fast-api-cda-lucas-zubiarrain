@@ -13,7 +13,7 @@ jobs:
 
       - name: Install and configure SSL
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} <<EOF_SCRIPT
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} <<'EOF_SCRIPT'
             set -e
             # Mettre à jour et installer les dépendances
             sudo apt-get update
@@ -27,7 +27,7 @@ jobs:
             sudo rm -f /etc/nginx/sites-enabled/default
             # Créer la configuration Nginx pour lzubdev.com
             if [ ! -f /etc/nginx/sites-available/lzubdev.com ]; then
-              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com <<EOF_NGINX
+              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com <<'"'EOF_NGINX'"'
 server {
     listen 80;
     server_name lzubdev.com www.lzubdev.com;
