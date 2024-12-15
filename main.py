@@ -14,5 +14,9 @@ Base.metadata.create_all(bind=engine)
 # === Application FastAPI ===
 app = FastAPI()
 
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to FastAPI!"}
+
 app.include_router(client_router, prefix="/api", tags=["Clients"])
 app.include_router(rdv_router, prefix="/api", tags=["rdv"])
