@@ -27,17 +27,13 @@ jobs:
             # Mettre à jour et installer les dépendances
             sudo apt-get update
             sudo apt-get install -y nginx certbot python3-certbot-nginx
-
             # Démarrer et activer Nginx
             sudo systemctl start nginx
             sudo systemctl enable nginx
-
             # Obtenir le certificat SSL
             sudo certbot --nginx -d lzubdev.com -d www.lzubdev.com --non-interactive --agree-tos -m zubiarrainlucas@gmail.com --redirect
-
             # Désactiver la configuration par défaut
             sudo rm -f /etc/nginx/sites-enabled/default
-
             # Créer la configuration Nginx pour lzubdev.com
             sudo tee /etc/nginx/sites-available/lzubdev.com > /dev/null <<'EOF_NGINX'
 server {
