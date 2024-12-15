@@ -1,12 +1,3 @@
-name: Setup SSL on VPS
-
-on:
-  workflow_run:
-    workflows: ["Deploy to VPS"]
-    types:
-      - completed
-  workflow_dispatch:  # Permet de lancer manuellement le workflow
-
 jobs:
   setup-ssl:
     runs-on: ubuntu-latest
@@ -22,9 +13,9 @@ jobs:
 
       - name: Install and configure SSL
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} <<EOF
             set -e
-            
+
             # Mettre à jour et installer les dépendances
             sudo apt-get update
             sudo apt-get install -y nginx certbot python3-certbot-nginx
@@ -41,7 +32,7 @@ jobs:
 
             # Créer la configuration Nginx pour lzubdev.com
             if [ ! -f /etc/nginx/sites-available/lzubdev.com ]; then
-              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com << EOF_NGINX_CONF
+              sudo bash -c 'cat > /etc/nginx/sites-available/lzubdev.com <<EOF_NGINX_CONF
 server {
     listen 80;
     server_name lzubdev.com www.lzubdev.com;
@@ -83,4 +74,4 @@ EOF_NGINX_CONF'
             sudo systemctl restart my_fastapi_app.service || echo "FastAPI app service not found."
 
             echo "SSL et configuration Nginx complétés avec succès!"
-          EOF
+EOF
