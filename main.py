@@ -12,7 +12,13 @@ from rooters.rendezvous_router import router as rdv_router
 Base.metadata.create_all(bind=engine)
 
 # === Application FastAPI ===
-app = FastAPI()
+app = FastAPI(
+    title = "My api",
+    version="1.0.0",
+    description="This is the FastAPI application for managing clients and rendezvous.",  # Description de l'API
+    openapi_url="/openapi.json"
+    
+)
 
 @app.get("/")
 async def read_root():
