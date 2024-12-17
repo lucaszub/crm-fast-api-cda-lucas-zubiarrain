@@ -16,5 +16,5 @@ COPY . .
 # Expose le port sur lequel l'application va écouter test
 EXPOSE 8000
 
-# Commande pour lancer l'application avec uvicorn
+# Commande pour lancer l'application avec uvicorn #
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
