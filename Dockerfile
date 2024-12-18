@@ -1,7 +1,7 @@
 FROM python:3.9-buster
 
 # Mettre à jour les dépôts et installer les dépendances système nécessaires
-RUN apt-get update --no-cache && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends libmysqlclient-dev gcc build-essential && \
     rm -rf /var/lib/apt/lists/*
 
