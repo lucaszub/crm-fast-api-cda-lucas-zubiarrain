@@ -1,8 +1,8 @@
-FROM python:3.9  # Utiliser limage non-slim
+FROM python:3.9-buster  # Utiliser une version plus complète de Debian
 
 # Mettre à jour les dépôts et installer les dépendances système nécessaires
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libmysqlclient-dev gcc && \
+RUN apt-get update --no-cache && \
+    apt-get install -y --no-install-recommends libmysqlclient-dev gcc build-essential && \
     rm -rf /var/lib/apt/lists/*
 
 # Répertoire de travail
