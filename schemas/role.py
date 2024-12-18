@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class RoleBase(BaseModel):
     name: str
 
-class RoleCreate(RoleBase):
+class RoleCreate(RoleBase): 
     pass
 
 class Role(RoleBase):
@@ -11,3 +11,4 @@ class Role(RoleBase):
 
     class Config:
         orm_mode = True
+#test
