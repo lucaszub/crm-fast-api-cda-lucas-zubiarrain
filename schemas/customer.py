@@ -23,4 +23,4 @@ class CustomerOut(BaseModel):
     registration_date: Optional[date]
 
     class Config:
-        from_attributes = True
+        from_attribute = True  

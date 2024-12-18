@@ -11,6 +11,7 @@ def create_customer(customer: CustomerCreate, db: Session = Depends(get_db)):
     return CustomerService.create_customer(db=db, customer=customer)
 
 @router.get("/customers/list", response_model=list[CustomerOut])
-def list_customers(skip : int = 0, limit : int = 100, db: Session = Depends(get_db)):
-    customers = CustomerService.get_customers(db=db, skip=skip, limit=limit)
+def list_customers(db: Session = Depends(get_db)):
+    # Retourne tous les clients sans pagination
+    customers = CustomerService.get_customers(db=db)
     return customers

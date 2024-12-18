@@ -17,7 +17,7 @@ class CustomerService:
         return db_customer
 
     @staticmethod
-    def get_customers(db: Session, skip: int = 0, limit = 100):
-        return db.query(Customer).offset(skip).limit(limit).all()
+    def get_customers(db: Session):
+        return db.query(Customer).all()
     
     
