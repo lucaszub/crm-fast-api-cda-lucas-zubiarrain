@@ -1,10 +1,9 @@
 FROM python:3.9-slim
 
-# Installer les dépendances système nécessaires (notamment pour mysqlclient)
-RUN apt-get update && apt-get install -y \
-    libmysqlclient-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+# Mettre à jour les dépôts et installer les dépendances système nécessaires (y compris gcc et libmysqlclient-dev)
+RUN apt-get update -o Acquire::Check-Valid-Until=false && \
+    apt-get install -y --no-install-recommends libmysqlclient-dev gcc && \
+    rm -rf /var/lib/apt/lists/*
 
 # Répertoire de travail
 WORKDIR /app
