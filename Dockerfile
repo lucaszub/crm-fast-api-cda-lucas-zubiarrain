@@ -1,20 +1,19 @@
-# Utilise une image officielle de Python comme base
-FROM python:3.9-alpine
+FROM python:3.9-slim
 
-# Définit le répertoire de travail dans le conteneur
+# Répertoire de travail
 WORKDIR /app
 
-# Copie le fichier requirements.txt dans le conteneur
+# Copier le fichier requirements.txt
 COPY requirements.txt .
 
-# Installe les dépendances test
+# Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copie tout le contenu de l'application dans le conteneur
+# Copier le reste de l'application
 COPY . .
 
-# Expose le port sur lequel l'application va écouter test
+# Exposer le port sur lequel l'application tourne
 EXPOSE 8000
 
-# Commande pour lancer l'application avec uvicorn #
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Commande pour démarrer l'application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
