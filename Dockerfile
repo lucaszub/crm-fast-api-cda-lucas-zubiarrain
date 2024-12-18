@@ -1,4 +1,4 @@
-FROM python:3.9-buster  # Utiliser une version plus complète de Debian
+FROM python:3.9-buster
 
 # Mettre à jour les dépôts et installer les dépendances système nécessaires
 RUN apt-get update --no-cache && \
