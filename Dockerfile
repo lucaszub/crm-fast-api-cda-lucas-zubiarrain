@@ -5,6 +5,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends libmariadb-dev gcc build-essential && \
     rm -rf /var/lib/apt/lists/*  # Nettoyer les fichiers temporaires
 
+# Mettre à jour pip
+RUN pip install --upgrade pip
+
 # Répertoire de travail
 WORKDIR /app
 
