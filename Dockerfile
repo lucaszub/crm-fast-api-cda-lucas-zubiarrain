@@ -1,7 +1,7 @@
-FROM python:3.9-slim
+FROM python:3.9  # Utiliser limage non-slim
 
-# Mettre à jour les dépôts et installer les dépendances système nécessaires (y compris gcc et libmysqlclient-dev)
-RUN apt-get update -o Acquire::Check-Valid-Until=false && \
+# Mettre à jour les dépôts et installer les dépendances système nécessaires
+RUN apt-get update && \
     apt-get install -y --no-install-recommends libmysqlclient-dev gcc && \
     rm -rf /var/lib/apt/lists/*
 
