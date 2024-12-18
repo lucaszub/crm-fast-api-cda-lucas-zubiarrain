@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/")
 def hello_world():
-    re
+    return {"Hello ; World"}
 # Inclure les ro;utes du customer
 app.include_router(customer.router)
 
