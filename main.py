@@ -5,7 +5,10 @@ from db.database import engine, Base
 # Crée l'instance FastAPI
 app = FastAPI()
 
-# Inclure les routes du customer
+@app.get("/")
+def hello_world():
+    re
+# Inclure les ro;utes du customer
 app.include_router(customer.router)
 
 # Créer les tables dans la base de données si elles n'existent pas encore
@@ -13,4 +16,4 @@ app.include_router(customer.router)
 Base.metadata.create_all(bind=engine)
 
 # Lancer l'application avec uvicorn:
-# uvicorn main:app --reload
+# uvicorn main:app --reload #test
