@@ -14,4 +14,4 @@ def create_customer(customer: CustomerCreate, db: Session = Depends(get_db)):
 def list_customers(db: Session = Depends(get_db)):
     # Retourne tous les clients sans pagination
     customers = CustomerService.get_customers(db=db)
-    return customers
+    return [CustomerOut.model_validate(customer) for customer in customers]
