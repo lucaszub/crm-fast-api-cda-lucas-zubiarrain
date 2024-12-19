@@ -1,9 +1,25 @@
 from fastapi import FastAPI
 from rooters import customer  # Assure-toi que le chemin est correct (plutôt 'routers' que 'rooters')
 from db.database import engine, Base
+from fastapi.middleware.cors import CORSMiddleware
 
 # Crée l'instance FastAPI
 app = FastAPI()
+# Liste des origines autorisées
+origins = [
+    "http://localhost:3000",  # Frontend en développement
+    # Ajoute d'autres origines si nécessaire
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Autoriser les origines spécifiées
+    allow_credentials=True,
+    allow_methods=["*"],  # Autoriser toutes les méthodes (GET, POST, etc.)
+    allow_headers=["*"],  # Autoriser tous les en-têtes
+)
+
+
 
 @app.get("/")
 def hello_world():
