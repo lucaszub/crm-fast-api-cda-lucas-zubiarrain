@@ -9,7 +9,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # Frontend en développement
     "https://lzubdev.com"
-    "'http://localhost:5174"
+    "http://localhost:5174"
     # Ajoute d'autres origines si nécessaire
 ]
 
