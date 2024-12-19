@@ -22,6 +22,5 @@ class CustomerOut(BaseModel):
     address: str
     registration_date: Optional[date]
 
-    model_config = {
-        "from_attributes": True  # Remplace Config par model_config
-    }
+    class Config:
+        orm_mode = True
