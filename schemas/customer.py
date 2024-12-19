@@ -12,7 +12,7 @@ class Customer(CustomerCreate):
     registration_date: date
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 class CustomerOut(BaseModel):
     id_customer: int

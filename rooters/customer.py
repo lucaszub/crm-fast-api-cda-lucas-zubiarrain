@@ -8,7 +8,9 @@ router = APIRouter()
 
 @router.post("/customers/", response_model=Customer)
 def create_customer(customer: CustomerCreate, db: Session = Depends(get_db)):
-    return CustomerService.create_customer(db=db, customer=customer)
+    created_customer = CustomerService.create_customer(db=db, customer=customer)
+    return Customer.from_orm(created_customer) 
+
 
 @router.get("/customers/list", response_model=list[CustomerOut])
 def list_customers(db: Session = Depends(get_db)):
