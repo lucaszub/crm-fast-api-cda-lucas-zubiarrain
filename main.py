@@ -8,6 +8,7 @@ app = FastAPI()
 # Liste des origines autorisées
 origins = [
     "http://localhost:3000",  # Frontend en développement
+    "https://lzubdev.com"
     # Ajoute d'autres origines si nécessaire
 ]
 
