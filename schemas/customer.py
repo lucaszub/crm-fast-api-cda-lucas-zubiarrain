@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 class CustomerCreate(BaseModel):
-    name: str
+    nom: str
+    prenom:str
     email: str
     phone: str
     address: str
@@ -16,7 +17,8 @@ class Customer(CustomerCreate):
 
 class CustomerOut(BaseModel):
     id_customer: int
-    name: str
+    nom: str
+    prenom:str
     email: str
     phone: str
     address: str

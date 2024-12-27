@@ -6,7 +6,8 @@ class CustomerService:
     @staticmethod
     def create_customer(db: Session, customer: CustomerCreate):
         db_customer = Customer(
-            name=customer.name,
+            nom=customer.nom,
+            prenom=customer.prenom,
             email=customer.email,
             phone=customer.phone,
             address=customer.address

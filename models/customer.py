@@ -7,7 +7,8 @@ class Customer(Base):
     __tablename__ = "customers"
 
     id_customer = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), index=True)
+    nom = Column(String(255), index=True)  # Nom de famille
+    prenom = Column(String(255), index=True)  # Prénom
     email = Column(String(255), unique=True, index=True)
     phone = Column(String(255))
     address = Column(String(255))
