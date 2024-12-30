@@ -39,7 +39,7 @@ def hello_world():
 # Inclure les routes du customer, service et appointment
 app.include_router(customer.router, prefix="/customers", tags=["Customers"])
 app.include_router(service.router, prefix="/services", tags=["Services"])
-app.include_router(appointment.router, prefix="/appointments", tags=["Appointments"])
+# app.include_router(appointment.router, prefix="/appointments", tags=["Appointments"])
 
 # Créer les tables dans la base de données si elles n'existent pas encore
 Base.metadata.create_all(bind=engine)
