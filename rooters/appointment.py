@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.database import get_db
 from schemas.appointment import AppointmentCreate, Appointment
-from services.appointmentService import AppointmentService
-
+from services.appointment import AppointmentService
 router = APIRouter()
 
 @router.post("/appointments/", response_model=Appointment)
