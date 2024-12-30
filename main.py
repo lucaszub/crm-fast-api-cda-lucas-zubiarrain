@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from rooters import customer, service  # Assure-toi que le chemin vers 'appointment' est correct
+# from rooters import customer, service  # Assure-toi que le chemin vers 'appointment' est correct
 from rooters import customer, service, appointment
 from db.database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,3 +43,8 @@ app.include_router(appointment.router, prefix="/appointments", tags=["Appointmen
 
 # Créer les tables dans la base de données si elles n'existent pas encore
 Base.metadata.create_all(bind=engine)
+
+
+
+
+
