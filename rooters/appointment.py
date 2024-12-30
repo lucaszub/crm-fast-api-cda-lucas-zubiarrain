@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.database import get_db
 from schemas.appointment import AppointmentCreate, Appointment
-from services.AppointmentService import AppointmentService
+from services.appointmentService import AppointmentService
 
 router = APIRouter()
 
