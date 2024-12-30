@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from rooters import customer, service, appointment  # Assure-toi que le chemin vers 'appointment' est correct
+from rooters import customer, service  # Assure-toi que le chemin vers 'appointment' est correct
+from rooters import customer, service, appointment
 from db.database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
