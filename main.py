@@ -1,10 +1,15 @@
 from fastapi import FastAPI
-from rooters import customer, service  # Assure-toi que le chemin est correct (plutôt 'routers' que 'rooters')
+from routers import customer, service, appointment  # Assure-toi que le chemin vers 'appointment' est correct
 from db.database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
 # Crée l'instance FastAPI
-app = FastAPI()
+app = FastAPI(
+    title="Coaching Application API",
+    description="API pour la gestion des rendez-vous, clients et autres aspects de l'application pour les coachs sportifs.",
+    version="1.0.0"
+)
+
 # Liste des origines autorisées
 origins = [
     "http://localhost:3000",  # Frontend en développement
@@ -22,19 +27,18 @@ app.add_middleware(
     allow_headers=["*"],  # Autoriser tous les en-têtes
 )
 
-
-
-@app.get("/")
+@app.get("/", tags=["General"])
 def hello_world():
-    return {"message": "Hello, World"}  # Correction de la syntaxe de la réponse
+    """
+    Endpoint pour tester la connexion à l'API.
+    Retourne un message 'Hello, World'.
+    """
+    return {"message": "Hello, World"}
 
-# Inclure les routes du customer
-app.include_router(customer.router)
-app.include_router(service.router)
+# Inclure les routes du customer, service et appointment
+app.include_router(customer.router, prefix="/customers", tags=["Customers"])
+app.include_router(service.router, prefix="/services", tags=["Services"])
+app.include_router(appointment.router, prefix="/appointments", tags=["Appointments"])
 
 # Créer les tables dans la base de données si elles n'existent pas encore
-# Cela dépend de la façon dont tu gères ta base de données (migrations ou autre)
 Base.metadata.create_all(bind=engine)
-
-# Lancer l'application avec uvicorn:
-# uvicorn main:app --reload # Pour le mode développement
