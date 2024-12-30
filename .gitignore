@@ -9,3 +9,7 @@ venv/
 
 # Fichiers spécifiques à l'outil Runner
 _runner_.py
+
+_runner_user.py
+_runner_connexion_local.py
+_runner_role.py
