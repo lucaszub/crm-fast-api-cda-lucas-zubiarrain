@@ -7,7 +7,7 @@ from services.service import ServiceHandler
 router = APIRouter()
 
 @router.post("/service/", response_model=ServiceOut)
-def create_customer(service: ServiceCreate, db: Session = Depends(get_db)):
+def create_service(service: ServiceCreate, db: Session = Depends(get_db)):
     created_service = ServiceHandler.create_service(db=db, service=service)
     return Service.from_orm(created_service) 
 

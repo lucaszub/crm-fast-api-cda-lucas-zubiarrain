@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from rooters import customer  # Assure-toi que le chemin est correct (plutôt 'routers' que 'rooters')
+from rooters import customer, service  # Assure-toi que le chemin est correct (plutôt 'routers' que 'rooters')
 from db.database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -30,6 +30,7 @@ def hello_world():
 
 # Inclure les routes du customer
 app.include_router(customer.router)
+app.include_router(service.router)
 
 # Créer les tables dans la base de données si elles n'existent pas encore
 # Cela dépend de la façon dont tu gères ta base de données (migrations ou autre)
