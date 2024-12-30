@@ -18,3 +18,7 @@ class ServiceHandler:
         db.commit()
         db.refresh(db_service)
         return db_service
+    
+    @staticmethod
+    def get_services(db:Session):
+        return db.query(Service).all()
