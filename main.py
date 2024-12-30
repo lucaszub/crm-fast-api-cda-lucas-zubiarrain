@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 # from rooters import customer, service  # Assure-toi que le chemin vers 'appointment' est correct
 from rooters import customer, service
-from rooters import appointment 
+from rooters import appointment, invoice
 from db.database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -41,6 +41,7 @@ def hello_world():
 app.include_router(customer.router, prefix="/customers", tags=["Customers"])
 app.include_router(service.router, prefix="/services", tags=["Services"])
 app.include_router(appointment.router, prefix="/appointments", tags=["Appointments"])
+app.include_router(invoice.router, prefix="/invoice", tags=["invoice"])
 
 # Créer les tables dans la base de données si elles n'existent pas encore
 Base.metadata.create_all(bind=engine)
