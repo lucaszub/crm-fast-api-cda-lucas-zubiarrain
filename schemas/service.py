@@ -5,6 +5,7 @@ class ServiceCreate(BaseModel):
     description: str
     price: float
 
+
 class ServiceOut(ServiceCreate):
     id_service: int
 
