@@ -1,40 +1,54 @@
-# 🚀 FastAPI CRM - Conteneurisation avec Docker
+# Backend - Outil de Gestion pour Petites Entreprises  
 
-Ce guide vous explique comment construire et lancer votre application FastAPI avec Docker.
+## **Présentation**  
+Ce backend est développé avec **FastAPI** pour répondre aux besoins des petites entreprises. Il gère les fonctionnalités principales de l'application, notamment :  
+- **Gestion des clients** : Création, modification, suppression et recherche.  
+- **Prise de rendez-vous** : Planification via un calendrier (en cours de développement).  
+- **Rapports** : Génération et export des données en formats CSV et PDF (en cours).  
+
+Le backend est conteneurisé avec **Docker** et utilise une base de données **MySQL**.  
 
 ---
 
-## 📦 Prérequis
+## **Technologies Utilisées**  
+- **FastAPI** : Framework rapide et moderne pour les APIs en Python.  
+- **MySQL** : Base de données relationnelle utilisée pour stocker les données.  
+- **Docker** : Utilisé pour packager et déployer l’application facilement.  
+- **Nginx** : Proxy inverse pour gérer les requêtes HTTP et HTTPS.  
 
-- **Docker** doit être installé sur votre machine.  
-  Vous pouvez le télécharger ici : [Docker - Get Started](https://www.docker.com/get-started).
+---
 
+## **Infrastructure Actuelle**  
+- **Base de données** : MySQL (hébergée en conteneur Docker).  
+- **CI/CD** : GitHub Actions configuré pour :  
+  - Construire et pousser les images Docker vers Docker Hub.  
+  - Déployer automatiquement les nouvelles versions sur un VPS.  
+- **Hébergement** :  
+  - VPS avec un certificat HTTPS configuré via **Nginx**.  
+  - Nom de domaine personnalisé pour accéder à l’API.  
 
+---
 
-## 🛠️ Construire l'image Docker
+## **Endpoints Principaux**  
+- **Clients** :  
+  - `POST /clients` : Ajouter un client.  
+  - `GET /clients` : Récupérer la liste des clients.  
+  - `GET /clients/{id}` : Détails d’un client.  
+  - `PUT /clients/{id}` : Modifier un client.  
+  - `DELETE /clients/{id}` : Supprimer un client.  
 
-Pour construire l'image Docker de votre application FastAPI, utilisez la commande suivante :
+- **Rendez-vous** (en cours de développement) :  
+  - `POST /rendezvous` : Ajouter un rendez-vous.  
+  - `GET /rendezvous` : Récupérer les rendez-vous.  
 
-```bash
-docker build -t fastapi-crm:v1.0.6 .
+La documentation complète des endpoints est disponible sur :  
+- **Swagger** : `/docs`  
+- **ReDoc** : `/redoc`  
 
-```
+---
 
-Run l'image Docker
-
-```bash
-docker run -p 8000:8000 fastapi-crm:v1.0.6
-```
-
-Taguez votre image 
-```bash
-docker tag fastapi-crm:v1.0.6 lucaszub/fastapi-crm:v1.0.6
-
-```
-Pousser l'image vers Docker Hub (si vous voulez la partager ou l'utiliser ailleurs) :
-```bash
-docker login
-docker push lucaszub/fastapi-crm:v1.0.6
-```
-
-ssh-keygen -t rsa -b 4096 -C "zubiarrainlucas@gmail.com"
+## **Prochaines Améliorations**  
+- Renforcement de la sécurité (gestion des accès et des secrets).  
+- Implémentation d’un système de permissions avancé.  
+- Ajout de tests unitaires et d’intégration.  
+- Migration progressive vers un cloud (Azure).  
