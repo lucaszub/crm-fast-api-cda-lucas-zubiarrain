@@ -1,4 +1,4 @@
-# Backend - Outil de Gestion pour Petites Entreprises  
+# Backend - Outil de Gestion pour Petites Entreprises (en cours)  
 
 ## **Présentation**  
 Ce backend est développé avec **FastAPI** pour répondre aux besoins des petites entreprises. Il gère les fonctionnalités principales de l'application, notamment :  
